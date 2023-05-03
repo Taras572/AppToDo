@@ -1,0 +1,134 @@
+<div class="back-lock">
+    <div class="container">
+        <div class="container__block-second">
+            <div class="container__back-home" [routerLink]="[ '/home' ]">
+                <i class="uil uil-home"></i>
+                <p class="container__text-home">Back home</p>
+            </div>
+
+
+            <form class="container__form" [formGroup]="settingForm">
+                <div class="container__login-mail">
+                    <label for="container__login-name__input" class="uil uil-user-exclamation">
+                        <input formControlName="fullName" id="container__login-name__input" type="text"
+                            placeholder="Full Name">
+                    </label>
+                </div>
+                <div class="container__login-mail">
+                    <label for="container__login-second-name__input" class="uil uil-user-exclamation">
+                        <input formControlName="nickName" id="container__login-second-name__input" type="text"
+                            placeholder="Nick Name">
+                    </label>
+                </div>
+
+                <div class="container__change-color">
+                    <p>choose your style</p>
+                    <ul>
+                        <li>
+                            <input type="radio" id="p-option" name="style" formControlName="style" value="A101">
+                            <label for="p-option"></label>
+                            <div class="container__color_profile-1 btn__color_profile">
+                                <div class="inside"></div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <input type="radio" id="o-option" name="style" formControlName="style" value="A102">
+                            <label for="o-option"></label>
+                            <div class="container__color_profile-2 btn__color_profile">
+                                <div class="inside"></div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <input type="radio" id="l-option" name="style" formControlName="style" value="A103">
+                            <label for="l-option"></label>
+                            <div class="container__color_profile-3 btn__color_profile">
+                                <div class="inside"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="radio" id="k-option" name="style" formControlName="style" value="A104">
+                            <label for="k-option"></label>
+                            <div class="container__color_profile-4 btn__color_profile">
+                                <div class="inside"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!--<div class="container__block-color container__color_profile-1"></div>
+                    <div class="container__block-color container__color_profile-2"></div>
+                    <div class="container__block-color container__color_profile-3"></div>
+                    <div class="container__block-color container__color_profile-4"></div> -->
+                <!-- </div> -->
+
+
+                <div class="container__history">
+                    <p>clean history every...</p>
+                    <ul>
+                        <li [class]="testStyle">
+                            <input type="radio" id="f-option" name="history" formControlName="history" value="201">
+                            <label for="f-option">Day</label>
+
+                            <div class="check">
+                                <div class="inside"></div>
+                            </div>
+                        </li>
+
+                        <li [class]="testStyle">
+                            <input type="radio" id="s-option" name="history" formControlName="history" value="202">
+                            <label for="s-option">Week</label>
+
+                            <div class="check">
+                                <div class="inside"></div>
+                            </div>
+                        </li>
+
+                        <li [class]="testStyle">
+                            <input type="radio" id="t-option" name="history" formControlName="history" value="203">
+                            <label for="t-option">Month</label>
+
+                            <div class="check">
+                                <div class="inside"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+
+                <div class="container__sort">
+                    <p>Sort task by</p>
+                    <ul>
+                        <li [class]="testStyle">
+                            <input type="radio" id="n-option" name="sort" formControlName="sort" value="301">
+                            <label for="n-option">New</label>
+
+                            <div class="check">
+                                <div class="inside"></div>
+                            </div>
+                        </li>
+
+                        <li [class]="testStyle">
+                            <input type="radio" id="d-option" name="sort" formControlName="sort" value="302">
+                            <label for="d-option">Date</label>
+
+                            <div class="check">
+                                <div class="inside"></div>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+                <p>sing in with</p>
+                <div class="container__login-singIn-registration-btn" [class]="testStyle">
+                    <button type="button" class="container__login-singIn-with uil uil-sign-out-alt" (click)="deleteProfil()">Delete account</button>
+                    <button type="button" class="container__login-registration uil uil-sign-out-alt" (click)="saveSetting()">Save changes</button>
+                </div>
+
+            </form>
+           
+
+            <p class="container__block-data">22.03.2023</p>
+        </div>
+    </div>
+</div>

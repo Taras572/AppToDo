@@ -1,0 +1,85 @@
+<div class="back-lock">
+    <div class="container">
+        <header class="container__head">
+            <div class="container__head-block">
+                <i class="uil uil-sliders-v" [routerLink]="[ '/setting' ]"></i>
+                <h1>My task</h1>
+                <i class="uil uil-signout" [routerLink]="[ '/logining' ]" (click)="logOut()"></i>
+            </div>
+            <div class="container__person" *ngFor="let item of userCount">
+                <div class="container__person-img">
+                    <img [src]="item.image" alt="">
+                </div>
+                <div class="container__person-name">
+                    <p>Hi, Good Morning </p>
+                    <h2>{{item.setting.nickName||item.fullName}}</h2>
+                </div>
+                <button type="button" class="container_person-statistics" [routerLink]="[ '/statistic' ]"
+                    [ngStyle]="{'border-color': countStyle}">Statistics</button>
+            </div>
+            <div class="container__week" [class]="testStyle">
+                <div class="container__week-day">
+                    <p>3</p><span>SUN</span>
+                </div>
+                <div class="container__week-day">
+                    <p>9</p><span>MON</span>
+                </div>
+                <div class="container__week-day">
+                    <p>10</p><span>TUS</span>
+                </div>
+                <div class="container__week-day">
+                    <p>2</p><span>WED</span>
+                </div>
+                <div class="container__week-day">
+                    <p>19</p><span>THU</span>
+                </div>
+                <div class="container__week-day">
+                    <p>20</p><span>FRY</span>
+                </div>
+                <div class="container__week-day">
+                    <p>11</p><span>SAT</span>
+                </div>
+            </div>
+        </header>
+        <div class="container__body">
+
+            <div class="container__block-task" [class]="testStyle" *ngFor="let item of task">
+                <div class="container__task">
+                    <button type="button" class="uil uil-edit"
+                        (click)="edit_block=false;add_block=true;editTask(item)"></button>
+                    <p [ngClass]="{'text_line': item.complete}">{{item.text}}</p>
+                    <div class="container__toggler-btn">
+                        <label class="toggler-wrapper style-1">
+                            <input type="checkbox" [checked]="item.complete" (click)="updateTask(item.id)">
+                            <div class="toggler-slider">
+                                <div class="toggler-knob"></div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+            <button type="button" class="container__add-btn" [ngStyle]="{'background-color': countStyle}"
+                (click)="edit_block = false; add_block = false; this.initTasks()"><i class="uil uil-plus"></i></button>
+
+            <div class="container__block-edit" [ngStyle]="{'height': edit_block ? '0':'100vh'}">
+                <form [formGroup]="taskForm" class="container__edit"
+                    [ngStyle]="{ 'transform': edit_block ? 'rotateX(270deg)' : 'rotateX(0deg)'}">
+                    <div class="container__text-task">
+                        <textarea name="" id="edit-text" placeholder="Type here..." formControlName="text"></textarea>
+                        <input type="date" class="container__data-btn" formControlName="dataFinish">
+                    </div>
+                    <div class="container__edit-btn">
+                        <button type="button" class="uil uil-cancel" (click)="edit_block=true"></button>
+                        <button type="button" class="uil uil-trash" *ngIf="add_block"
+                            (click)="removeTask(taskID)"></button>
+                        <button type="button" class="uil uil-save"
+                            (click)="!add_block ? createProduct(personInfo.uid) : saveEdit(taskID)"></button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

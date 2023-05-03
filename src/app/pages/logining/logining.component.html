@@ -1,0 +1,111 @@
+<div class="back-lock">
+    <div class="container-animation">
+
+        <div class="container" [ngStyle]="{'transform' : 'rotateY('+rotate_sing +'deg)'}">
+
+            <div class="container__block">
+                <h1 class="container__head">Welcome <br> Back!</h1>
+                <form class="container__form" [formGroup]="singInForm">
+                    <div class="container__login-mail">
+                        <label for="singInEmail" class="uil uil-envelope">
+                            <input formControlName="email" id="singInEmail" class="container__login-mail__input"
+                                type="text" placeholder="Email" [ngClass]="{'emailLogIn': countStyle.email_SingIn}"
+                                autocomplete="off">
+                        </label>
+                    </div>
+                    <div class="container__login-pass">
+                        <label for="singInPass" class="uil uil-lock-alt">
+                            <input formControlName="password" id="singInPass" class="container__login-pass__input"
+                                [ngClass]="{'passLogIn': countStyle.pass_SingIn}" [type]="password"
+                                placeholder="Password" autocomplete="off">
+                        </label>
+                        <i class="uil uil-eye" (mousedown)="showPass()" (mouseup)="showPass()" *ngIf="!show"></i>
+                        <i class="uil uil-eye-slash" (mouseup)="showPass()" *ngIf="show"></i>
+                    </div>
+                    <button type="button" class="container__btn-pass" [ngStyle]="{'color': colorStyle}"
+                        (click)="rotate_sing = 90; defoultInputStyle()">Forgot
+                        password</button>
+                </form>
+                <div class="container__login-singIn" [class]="testStyle">
+                    <p>Sing In</p>
+                    <button type="button" class="container__login-singIn-btn" (click)="singIn()">
+                        <i class="uil uil-arrow-right"></i>
+                    </button>
+                </div>
+                <div class="container__login-singIn-registration-btn" [class]="testStyle">
+                    <p>sing in with</p>
+                    <button class="container__login-singIn-with" (click)="singInGoogle()">Sing in with Google</button>
+                    <button type="button" class="container__login-registration uil uil-registered"
+                        (click)="rotate_sing = -90; defoultInputStyle()">Registration</button>
+                </div>
+            </div>
+
+            <div class="container__block-second">
+                <h1 class="container__head">Create an <br> account</h1>
+                <form class="container__form" [formGroup]="singUpForm">
+                    <div class="container__login-mail">
+                        <label for="emailRegister" class="uil uil-envelope">
+                            <input formControlName="email" id="emailRegister" class="container__Register-mail__input"
+                                type="text" placeholder="Email" [ngClass]="{'emailCreate': countStyle.email_Register}"
+                                autocomplete="off">
+                        </label>
+                    </div>
+                    <div class="container__login-pass">
+                        <label for="passRegister" class="uil uil-lock-alt">
+                            <input formControlName="passwordFirst" id="passRegister"
+                                class="container__login-pass__input" [type]="password" placeholder="Password"
+                                autocomplete="off" [ngClass]="{'passCreate': countStyle.pass_Register}">
+                        </label>
+                        <i class="uil uil-eye" (mousedown)="showPass()" (mouseup)="showPass()" *ngIf="!show"></i>
+                        <i class="uil uil-eye-slash" (mouseup)="showPass()" *ngIf="show"></i>
+                    </div>
+                    <div class="container__login-pass">
+                        <label for="passRegister2" class="uil uil-lock-alt">
+                            <input formControlName="passwordSecond" id="" class="container__Register2-pass__input"
+                                [type]="password" placeholder="Password" autocomplete="off"
+                                [ngClass]="{'passCreate': countStyle.pass_Register}">
+                        </label>
+                    </div>
+                </form>
+                <div class="container__login-singIn" [class]="testStyle">
+                    <p>Register</p>
+                    <button class="container__login-singIn-btn" (click)="createUser()">
+                        <i class="uil uil-arrow-right"></i>
+                    </button>
+                </div>
+                <div class="container__login-singIn-registration-btn" [class]="testStyle">
+                    <p>sing in with</p>
+                    <button type="button" class="container__login-singIn-with" (click)="singInGoogle()">Sing in with
+                        Google</button>
+                    <button type="button" class="container__login-registration uil uil-sign-out-alt"
+                        (click)="rotate_sing = 0; defoultInputStyle()">Sing in</button>
+                </div>
+            </div>
+
+            <div class="container__block-third">
+                <h1 class="container__head">Forgot <br> password?</h1>
+                <form class="container__form" [formGroup]="restorationPass">
+                    <div class="container__login-mail">
+                        <label for="resetPassword" class="uil uil-envelope">
+                            <input formControlName="email" id="resetPassword" class="container__resetPass__input"
+                                type="text" placeholder="Email" [ngClass]="{'resetPass': countStyle.reset_Pass}"
+                                autocomplete="off">
+                        </label>
+                    </div>
+                    <p>*We will send you a massege to set or reset your new password</p>
+                </form>
+                <div class="container__login-singIn" [class]="testStyle">
+                    <p>Send code</p>
+                    <button class="container__login-singIn-btn" (click)="resetPassword()">
+                        <i class="uil uil-arrow-right"></i>
+                    </button>
+                </div>
+                <div class="container__login-singIn-registration-btn" [class]="testStyle">
+                    <p>Back to Login/Register</p>
+                    <button type="button" class="container__login-registration uil uil-home"
+                        (click)="rotate_sing = 0; defoultInputStyle()">Turn back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

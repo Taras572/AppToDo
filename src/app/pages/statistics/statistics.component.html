@@ -1,0 +1,49 @@
+<div class="back-lock">
+    <div class="container">
+        <div class="container__block-second">
+
+            <div class="container__back-home" [routerLink]="[ '/home' ]">
+                <i class="uil uil-home"></i>
+                <p class="container__text-home">Back home</p>
+            </div>
+
+            <div class="container__statistic-info">
+                <table class="container__table-info">
+                    <tbody>
+                        <tr>
+                            <td>All my task now:</td>
+                            <td>{{allTask}}</td>
+                        </tr>
+                        <tr>
+                            <td>All my completed tasks:</td>
+                            <td>{{finishedTask}}</td>
+                        </tr>
+                        <tr>
+                            <td>In progress now:</td>
+                            <td>{{progress}}</td>
+                        </tr>
+                        <tr>
+                            <td>Not completed on time:</td>
+                            <td>{{unfinishedTask}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div class="circle-wrap">
+                <h2>My efficiency:</h2>
+                <div class="circle">
+                    <div class="mask full">
+                        <div class="fill" [ngStyle]="{'background-color': countStyle}"></div>
+                    </div>
+                    <div class="mask half">
+                        <div class="fill" [ngStyle]="{'background-color': countStyle}"></div>
+                    </div>
+                    <div class="inside-circle" [ngStyle]="{'color': countStyle}"> 75% </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,322 @@
+@import '../../../assets/base/variables/variable.scss';
+
+.back-lock {
+    background-color: #363C45;
+    width: 100%;
+    height: 100vh;
+    background-image: url($image-back);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+//container block
+.container__head {
+    margin: 30px 0;
+}
+
+.container-animation {
+    height: 100vh;
+    perspective: 3000px;
+    position: relative;
+    overflow: hidden;
+}
+
+$width_block: 420px;
+
+.container {
+    max-width: $width_block;
+    background-color: $back-color-app;
+    margin: 0 auto;
+    color: $text-input-light-color;
+    transform-style: preserve-3d;
+    transform: rotateY(0deg);
+    transition: 1s;
+}
+
+.container__block,
+.container__block-second,
+.container__block-third {
+    width: $width_block;
+    height: 100vh;
+    background-color: inherit;
+    padding: 20px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.container__block {
+    transform: translateZ(calc($width_block/2));
+}
+
+.container__block-second {
+    transform: rotateY(90deg) translateZ(calc($width_block/2));
+}
+
+.container__block-third {
+    transform: rotateY(-90deg) translateZ(calc($width_block/2));
+}
+
+.container__Register-mail__input,
+.container__Register-pass__input,
+.container__Register2-pass__input,
+.container__resetPass__input,
+.container__login-mail__input,
+.container__login-pass__input {
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    margin: 15px 0;
+    padding: 0 32px;
+    background-color: $input-color;
+    color: $text-input-light-color;
+}
+
+.container__login-pass,
+.container__login-mail {
+    position: relative;
+}
+
+.uil-sign-out-alt::before,
+.uil-registered::before,
+.uil-home::before,
+.uil-envelope::before,
+.uil-user::before,
+.uil-lock-alt::before {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translate(0, -50%);
+}
+.uil-sign-out-alt::before,
+.uil-registered::before,
+.uil-home::before{
+    left: 19px;
+    font-size: 25px;
+}
+
+.uil-eye::before,
+.uil-eye-slash::before {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translate(0, -50%);
+    cursor: pointer;
+}
+
+//eye closed
+
+
+//btn block
+.container__btn-pass {
+    border: none;
+    outline: none;
+    color: $btn-log-color;
+    font-weight: 500;
+    background-color: inherit;
+}
+
+.container__form {
+    position: relative;
+}
+
+.container__btn-pass {
+    position: absolute;
+    right: 0;
+    bottom: -8px;
+}
+
+.container__btn-pass::before {
+    position: absolute;
+    border-bottom: 1px solid $btn-log-color;
+    width: 100px;
+}
+
+.container__login-singIn {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0;
+    line-height: 40px;
+    font-size: 30px;
+}
+
+.container__login-singIn-btn {
+    transition: 0.1s;
+    height: 40px;
+    width: 40px;
+    background-color: $btn-log-color;
+    border-radius: 50%;
+    border: 0;
+    outline: 0;
+    animation: example 4s infinite linear;
+    box-shadow:
+        rgba(240, 46, 170, 0.4) -5px 5px,
+        rgba(240, 46, 170, 0.3) 5px 5px,
+        rgba(240, 46, 170, 0.2) -5px 5px,
+        rgba(240, 46, 170, 0.1) -2px 2px,
+        rgba(240, 46, 170, 0.05) -2px 5px;
+}
+.A102 .container__login-singIn-btn{
+    background-color: $btn-log-color-lime;
+}
+.A103 .container__login-singIn-btn{
+    background-color: $btn-log-color-blue;
+}
+.A104 .container__login-singIn-btn{
+    background-color: $btn-log-color-violet;
+}
+
+
+@keyframes example {
+    25% {
+        box-shadow:
+            rgba(240, 46, 170, 0.4) 2px -7px,
+            rgba(240, 46, 170, 0.3) 3px 8px,
+            rgba(240, 46, 170, 0.2) 5px -5px,
+            rgba(240, 46, 170, 0.1) 2px -10px,
+            rgba(240, 46, 170, 0.05) -5px 5px;
+    }
+
+    50% {
+        box-shadow:
+            rgba(240, 46, 170, 0.4) 2px -7px,
+            rgba(240, 46, 170, 0.3) 3px 8px,
+            rgba(240, 46, 170, 0.2) -5px 0px,
+            rgba(240, 46, 170, 0.1) 2px -2px,
+            rgba(240, 46, 170, 0.05) -5px -15px;
+    }
+
+    100% {
+        box-shadow:
+            rgba(240, 46, 170, 0.4) -5px 5px,
+            rgba(240, 46, 170, 0.3) 5px 5px,
+            rgba(240, 46, 170, 0.2) -5px 5px,
+            rgba(240, 46, 170, 0.1) -2px 2px,
+            rgba(240, 46, 170, 0.05) -2px 5px;
+    }
+}
+
+.container__login-singIn-btn:active {
+    transform: rotate(30deg);
+}
+.uil-arrow-right {
+    color: $text-input-light-color;
+    font-size: 25px;
+    transition: 0.1s;
+}
+.container__login-singIn-btn:active .uil-arrow-right{
+    font-size: 30px;
+}
+
+.container__block p {
+    text-align: center;
+}
+
+.container__login-singIn-registration-btn {
+    text-align: center;
+}
+
+.container__login-singIn-registration-btn p {
+    color: $text-input-color;
+}
+
+.container__login-singIn-with,
+.container__login-registration {
+    width: 250px;
+    border-radius: 18px;
+    border: none;
+    outline: none;
+    background-color: $input-color;
+    height: 40px;
+    color: $text-input-light-color;
+    position: relative;
+    margin: 15px 0;
+}
+
+.container__login-singIn-with,
+.container__login-registration {
+    transition: 0.3s;
+}
+
+.container__login-singIn-with:hover,
+.container__login-registration:hover {
+    box-shadow: 0 0 4px 4px $btn-log-color;
+}
+.A102 .container__login-singIn-with:hover,
+.A102 .container__login-registration:hover {
+    box-shadow: 0 0 4px 4px $btn-log-color-lime;
+}
+.A103 .container__login-singIn-with:hover,
+.A103 .container__login-registration:hover {
+    box-shadow: 0 0 4px 4px $btn-log-color-blue;
+}
+.A104 .container__login-singIn-with:hover,
+.A104 .container__login-registration:hover {
+    box-shadow: 0 0 4px 4px $btn-log-color-violet;
+}
+
+
+.container__login-singIn-with:active,
+.container__login-registration:active {
+    box-shadow: 0 0 1px 1px $btn-log-color;
+    color: $btn-log-color;
+}
+.A102 .container__login-singIn-with:active,
+.A102 .container__login-registration:active {
+    box-shadow: 0 0 1px 1px $btn-log-color-lime;
+    color: $btn-log-color-lime;
+}
+.A103 .container__login-singIn-with:active,
+.A103 .container__login-registration:active {
+    box-shadow: 0 0 1px 1px $btn-log-color-blue;
+    color: $btn-log-color-blue;
+}
+.A104 .container__login-singIn-with:active,
+.A104 .container__login-registration:active {
+    box-shadow: 0 0 1px 1px $btn-log-color-violet;
+    color: $btn-log-color-violet;
+}
+
+
+.container__login-singIn-with::after {
+    content: url('../../../assets/image/google.png');
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+.passLogIn,
+.emailLogIn,
+.resetPass,
+.emailCreate,
+.passCreate {
+    border: 1px solid $text-input-light-color;
+    padding-left: 31px;
+}
+
+
+
+@media (max-height: 650px) {
+    .container__head {
+        margin: 15px 0;
+    }
+
+    .container__resetPass__input,
+    .container__login-mail__input,
+    .container__login-pass__input {
+        margin: 7px 0;
+    }
+
+    .container__login-singIn {
+        margin: 20px 0;
+    }
+
+    .container__btn-pass {
+        bottom: -12px;
+    }
+}
