@@ -28,7 +28,6 @@ export class SettingsProfileComponent {
     public countStyle!: string;//var style 
 
 
-
     constructor(
         private fb: UntypedFormBuilder,
         public db: Database,
@@ -106,8 +105,8 @@ export class SettingsProfileComponent {
             });
         }
         else this.showError('Something went wrong!');
-
     }
+
     showSuccess(massage: string): void {
         this.toastr.success(massage);
     }

@@ -22,7 +22,7 @@
     overflow: hidden;
 }
 
-$width_block: 420px;
+$width_block: 320px;
 
 .container {
     max-width: $width_block;
@@ -48,15 +48,15 @@ $width_block: 420px;
 }
 
 .container__block {
-    transform: translateZ(calc($width_block/2));
+    transform: translateZ(calc($width_block/2 - 1px));
 }
 
 .container__block-second {
-    transform: rotateY(90deg) translateZ(calc($width_block/2));
+    transform: rotateY(90deg) translateZ(calc($width_block/2 - 1px));
 }
 
 .container__block-third {
-    transform: rotateY(-90deg) translateZ(calc($width_block/2));
+    transform: rotateY(-90deg) translateZ(calc($width_block/2 - 1px));
 }
 
 .container__Register-mail__input,
@@ -302,6 +302,7 @@ $width_block: 420px;
 
 
 @media (max-height: 650px) {
+
     .container__head {
         margin: 15px 0;
     }

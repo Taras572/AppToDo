@@ -64,6 +64,10 @@ p {
     align-items: flex-end;
 }
 
+.container__back-home:hover{
+    cursor: pointer;
+}
+
 #container__login-name__input,
 #container__login-second-name__input,
 #container__login-file__input {
@@ -374,8 +378,6 @@ input[type=radio]:checked~label {
     transform: translate(0, -50%);
     font-size: 25px;
 }
-
-
 
 
 @media (max-width:390px) {

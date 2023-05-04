@@ -6,6 +6,7 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Task, user } from 'src/app/shared/model/users/users.module';
 import { SettingsProfileService } from 'src/app/shared/services/settings/settings-profile.service';
+import { sendPasswordResetEmail } from 'firebase/auth';
 
 
 @Component({
@@ -205,10 +206,7 @@ export class HomeComponent {
 
 
     sortTask(item: string): void {
-        this.task.sort(function (x) {
-            if (x.complete) return 0
-            return -1
-        });
+        this.task.sort((x)=> x.complete? 0 : -1 );
         if (item === '302') {
             this.task.sort(function (x, y) {
                 if (!x.complete) return Number(x.dataFinish.split('-').join('')) - Number(y.dataFinish.split('-').join(''))
@@ -235,4 +233,5 @@ export class HomeComponent {
         }
     }
 
+   
 }

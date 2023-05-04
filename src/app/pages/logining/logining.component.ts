@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, getRedirectResult, sendPasswordResetEmail } from "firebase/auth";
 import { Auth } from '@angular/fire/auth';
 import { Database } from '@angular/fire/database';
-import { ref, set, onValue, get, remove, child, push } from "firebase/database";
+import { ref, set, get, child } from "firebase/database";
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Setting, Users } from 'src/app/shared/model/users/users.module';
 import { UsersService } from 'src/app/shared/services/users/users.service';
@@ -51,6 +51,7 @@ export class LoginingComponent {
 
     }
 
+
     ngOnInit(): void {
         this.initRestorationPass();
         this.initSingIn();
@@ -62,6 +63,7 @@ export class LoginingComponent {
         }
 
     }
+
 
     LogIn(): void {
         if (localStorage.getItem('userToDo')) {
@@ -75,12 +77,14 @@ export class LoginingComponent {
         }
     }
 
+
     initSingIn(): void {
         this.singInForm = this.fb.group({
             email: [null],
             password: [null]
         })
     }
+
 
     initSingUp(): void {
         this.singUpForm = this.fb.group({
@@ -90,11 +94,13 @@ export class LoginingComponent {
         })
     }
 
+
     initRestorationPass(): void {
         this.restorationPass = this.fb.group({
             email: [null]
         })
     }
+
 
     createUser() {
         const { email, passwordFirst, passwordSecond } = this.singUpForm.value;
@@ -113,6 +119,7 @@ export class LoginingComponent {
             });
     }
 
+
     defoultInputStyle() {
         this.countStyle = {
             email_SingIn: false,
@@ -125,6 +132,7 @@ export class LoginingComponent {
         this.initSingIn();
         this.initSingUp();
     }
+
 
     singIn() {
         const { email, password } = this.singInForm.value;
@@ -144,6 +152,7 @@ export class LoginingComponent {
             });
     }
 
+
     singInGoogle(): void {
         const provider = new GoogleAuthProvider();
         signInWithPopup(this.auth, provider)
@@ -151,16 +160,17 @@ export class LoginingComponent {
                 const credential = GoogleAuthProvider.credentialFromResult(result);
                 const user = result.user;
                 this.checkUser(user);
-                console.log(user);
             }).catch((error) => {
                 const errorCode = error.code;
                 this.checkMassege(errorCode);
             });
     }
 
+
     setLocalStorage(user: object) {
         localStorage.setItem('userToDo', JSON.stringify(user));
     }
+
 
     checkUser(user: any) {
         const dbRef = ref(this.db);
@@ -181,17 +191,20 @@ export class LoginingComponent {
 
     }
 
+
     resetPassword(): void {
         const { email } = this.restorationPass.value;
         sendPasswordResetEmail(this.auth, email)
             .then(() => {
-
+                this.showSuccess('Email sent successfully!')
+                this.rotate_sing = 0;
             })
             .catch((error) => {
                 const errorCode = error.code;
                 this.checkMassege(errorCode);
             });
     }
+
 
     addUserObj(user: any): void {
         const setting = new Setting(user.displayName || 'Guest', '', 'A101', '202', '301');
@@ -207,6 +220,7 @@ export class LoginingComponent {
                 console.log(error);
             });
     }
+
 
     checkMassege(errorCode: string): void {
         let letter = errorCode[5].toLocaleUpperCase();
@@ -259,6 +273,7 @@ export class LoginingComponent {
 
     }
 
+
     showPass() {
         if (this.password === 'password') {
             this.password = 'text';
@@ -269,8 +284,9 @@ export class LoginingComponent {
         }
     }
 
+
     showSuccess(massage: string): void {
-        this.toastr.success(massage, '', { timeOut: 500, });
+        this.toastr.success(massage, '', { timeOut: 1000, });
     }
 
     showError(massage: string): void {
