@@ -26,6 +26,8 @@ export class HomeComponent {
     public testStyle!: string;
     public countStyle!: string;
 
+    public days: Array<any> = [];
+
 
     constructor(
         public userService: UsersService,
@@ -41,8 +43,9 @@ export class HomeComponent {
         this.initTasks();
         this.getUid();
         this.settingService.colorApp$.subscribe(elem => this.countStyle = elem);
-
+        this.week();
     }
+
 
     initTasks(): void {
         this.taskForm = this.fb.group({
@@ -61,8 +64,6 @@ export class HomeComponent {
         if (localStorage.getItem('userToDo')) {
             this.personInfo = JSON.parse(<string>localStorage.getItem('userToDo'));
             this.loadUser(this.personInfo.uid);
-            
-            /*   this.informTask(this.personInfo.uid); */
         }
     }
 
@@ -72,10 +73,8 @@ export class HomeComponent {
         get(child(dbRef, `users/` + item)).then((snapshot) => {
             if (snapshot.exists()) {
                 this.userCount.push(snapshot.val());
-                this.testStyle = snapshot.val().setting.style;
-                this.countStyle = this.settingService.colorApp(snapshot.val().setting.style);
-                sessionStorage.setItem('style', JSON.stringify(snapshot.val().setting.style));
-                this.loadTask(this.personInfo.uid,snapshot.val().setting.sort);
+                this.styleApp(snapshot.val().setting.style);
+                this.loadTask(this.personInfo.uid, snapshot.val().setting.sort);
             } else {
                 console.log("No data available");
             }
@@ -84,14 +83,22 @@ export class HomeComponent {
         })
     }
 
+
+    styleApp(item: string) {
+        this.testStyle = item;
+        this.countStyle = this.settingService.colorApp(item);
+        sessionStorage.setItem('style', JSON.stringify(item));
+    }
+
+
     loadTask(item: string, elem: string) {
         const starCountRef = ref(this.db, 'users/' + item + '/task/');
         onValue(starCountRef, (snapshot) => {
             this.task = Object.values(snapshot.val());
-            /* console.log(this.userCount); */
             this.sortTask(elem);
         })
     }
+
 
     informTask(item: boolean, elem: string): void {
         if (!item) {
@@ -125,6 +132,7 @@ export class HomeComponent {
         else this.showInfo('Task and data can`t be empty!');
     }
 
+
     updateTask(id: string): void {
         const obj = this.task.filter(elem => { return elem.id === id });
         const starCountRef = 'users/' + this.personInfo.uid + '/task/' + id;
@@ -135,6 +143,7 @@ export class HomeComponent {
             this.informTask(obj[0].complete, obj[0].dataFinish);
         }, 200);
     }
+
 
     editTask(item: any): void {
         this.taskID = item.id;
@@ -159,6 +168,7 @@ export class HomeComponent {
         else this.showInfo('Task and data can`t be empty!');
     }
 
+
     removeTask(taskID: any): void {
         if (this.task.length == 1) {
             set(ref(this.db, 'users/' + this.personInfo.uid + '/task/'), '')
@@ -174,6 +184,7 @@ export class HomeComponent {
         }
     }
 
+
     showSuccess(massage: string): void {
         this.toastr.success(massage);
     }
@@ -184,12 +195,14 @@ export class HomeComponent {
         this.toastr.info(massage);
     }
 
+
     testTask(item: string): boolean {
         const finishData = Number(item.split('-').join(''));
         const todayData = Number(this.settingService.getFullDate().split('-').join(''));
         if (finishData - todayData > 0) return true;
         else return false;
     }
+
 
     sortTask(item: string): void {
         this.task.sort(function (x) {
@@ -201,6 +214,24 @@ export class HomeComponent {
                 if (!x.complete) return Number(x.dataFinish.split('-').join('')) - Number(y.dataFinish.split('-').join(''))
                 return 0
             });
+        }
+    }
+
+
+    week(): void {
+        let date = new Date();
+        let dateToday = date.getDate();
+        date.setDate(date.getDate() - date.getDay());
+        this.days = [];
+        for (let i = 0; i < 7; i++) {
+            this.days.push(
+                {
+                    week: date.toDateString().slice(0, 3).toLocaleUpperCase(),
+                    date: date.getDate(),
+                    active: dateToday === date.getDate() ? true : false
+                }
+            );
+            date.setDate(date.getDate() + 1);
         }
     }
 
