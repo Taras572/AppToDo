@@ -97,6 +97,7 @@ export class HomeComponent {
         onValue(starCountRef, (snapshot) => {
             this.task = Object.values(snapshot.val());
             this.sortTask(elem);
+            this.cleanHistory();
         })
     }
 
@@ -233,5 +234,10 @@ export class HomeComponent {
         }
     }
 
-   
+    cleanHistory() {
+        console.log(this.settingService.getFullDate());
+        this.task.forEach(elem=>console.log(elem.dataFinish));
+        console.log(this.task);
+        console.log(this.userCount[0].setting.history);
+    }  
 }

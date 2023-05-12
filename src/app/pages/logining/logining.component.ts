@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
@@ -12,7 +12,6 @@ import { UsersService } from 'src/app/shared/services/users/users.service';
 import { SettingsProfileService } from 'src/app/shared/services/settings/settings-profile.service';
 
 
-
 @Component({
     selector: 'app-logining',
     templateUrl: './logining.component.html',
@@ -21,6 +20,7 @@ import { SettingsProfileService } from 'src/app/shared/services/settings/setting
 export class LoginingComponent {
 
     public rotate_sing: number = 0;
+    public translete: number = 209;
     public password: any = 'password';
     public show = false;
     public testStyle!: string;
@@ -39,6 +39,7 @@ export class LoginingComponent {
     public singUpForm!: UntypedFormGroup;
     public restorationPass!: UntypedFormGroup;
 
+
     constructor(
         private fb: UntypedFormBuilder,
         public auth: Auth,
@@ -51,7 +52,6 @@ export class LoginingComponent {
 
     }
 
-
     ngOnInit(): void {
         this.initRestorationPass();
         this.initSingIn();
@@ -61,7 +61,11 @@ export class LoginingComponent {
             this.testStyle = JSON.parse(<string>sessionStorage.getItem('style'));
             this.colorStyle = this.settingService.colorApp(this.testStyle);
         }
+        if(window.innerWidth<420)this.translete = (window.innerWidth/2) - 1;//for animation
+    }
 
+    onResize(event: any) {
+        if (event.target.innerWidth < 420) (this.translete = event.target.innerWidth / 2) - 1;
     }
 
 
@@ -106,7 +110,7 @@ export class LoginingComponent {
         const { email, passwordFirst, passwordSecond } = this.singUpForm.value;
         let pass;
         if (passwordFirst === passwordSecond) pass = passwordFirst;
-        
+
         createUserWithEmailAndPassword(this.auth, email, pass)
             .then((userCredential) => {
                 const user = userCredential.user;
@@ -188,7 +192,6 @@ export class LoginingComponent {
         }).catch((error) => {
             console.error(error);
         });
-
     }
 
 
@@ -267,6 +270,7 @@ export class LoginingComponent {
             this.countStyle.pass_Register = true;
             this.showError('Write email and password');
         }
+
         if (errorCode == 'auth/popup-closed-by-user') {
             this.showError(mess);
         }

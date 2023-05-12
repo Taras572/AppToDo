@@ -1,4 +1,3 @@
-/* $btn-log-color: var(--testcolor); */
 .back-lock {
   background-color: #363C45;
   width: 100%;
@@ -251,6 +250,10 @@
   outline: none;
   margin-right: 7px;
   font-size: 22px;
+  cursor: pointer;
+}
+
+.uil {
   cursor: pointer;
 }
 

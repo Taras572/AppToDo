@@ -1,12 +1,12 @@
 <div class="back-lock">
     <div class="container">
         <header class="container__head">
-            <div class="container__head-block">
+            <div class="container__head-block" [class]="testStyle">
                 <i class="uil uil-sliders-v" [routerLink]="[ '/setting' ]"></i>
                 <h1>My task</h1>
                 <i class="uil uil-signout" [routerLink]="[ '/logining' ]" (click)="logOut()"></i>
             </div>
-            <div class="container__person" *ngFor="let item of userCount">
+            <div class="container__person" *ngFor="let item of userCount" [class]="testStyle">
                 <div class="container__person-img">
                     <img [src]="item.image" alt="">
                 </div>

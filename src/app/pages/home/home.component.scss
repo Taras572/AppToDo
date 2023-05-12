@@ -73,7 +73,26 @@ $width-person-info: 420px;
 .uil-sliders-v,
 .uil-signout {
     font-size: 20px;
+}
 
+.A102 .uil:hover {
+    color: $btn-log-color-lime;
+}
+.A103 .uil:hover {
+    color: $btn-log-color-blue;
+}
+.A104 .uil:hover {
+    color: $btn-log-color-violet;
+}
+//btn statistic
+.A102 .container_person-statistics:hover {
+    color: $btn-log-color-lime;
+}
+.A103 .container_person-statistics:hover{
+    color: $btn-log-color-blue;
+}
+.A104 .container_person-statistics:hover {
+    color: $btn-log-color-violet;
 }
 
 .container__person-img {

@@ -57,6 +57,18 @@ p {
     font-size: 20px;
     margin-right: 10px;
 }
+.container__text-home:hover{
+    cursor: pointer;
+}
+.A102:hover {
+    color: $btn-log-color-lime;
+}
+.A103:hover {
+    color: $btn-log-color-blue;
+}
+.A104:hover {
+    color: $btn-log-color-violet;
+}
 
 .container__back-home {
     display: inline-flex;

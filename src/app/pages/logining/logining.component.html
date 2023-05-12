@@ -1,9 +1,9 @@
-<div class="back-lock">
+<div class="back-lock" (window:resize)="onResize($event)">
     <div class="container-animation">
 
         <div class="container" [ngStyle]="{'transform' : 'rotateY('+rotate_sing +'deg)'}">
 
-            <div class="container__block">
+            <div class="container__block" [ngStyle]="{'transform' : ' translateZ('+translete+'px)'}">
                 <h1 class="container__head">Welcome <br> Back!</h1>
                 <form class="container__form" [formGroup]="singInForm">
                     <div class="container__login-mail">
@@ -40,7 +40,7 @@
                 </div>
             </div>
 
-            <div class="container__block-second">
+            <div class="container__block-second" [ngStyle]="{'transform' : 'rotateY(90deg) translateZ('+translete+'px)'}">
                 <h1 class="container__head">Create an <br> account</h1>
                 <form class="container__form" [formGroup]="singUpForm">
                     <div class="container__login-mail">
@@ -82,7 +82,7 @@
                 </div>
             </div>
 
-            <div class="container__block-third">
+            <div class="container__block-third" [ngStyle]="{'transform' : 'rotateY(-90deg) translateZ('+translete+'px) '}">
                 <h1 class="container__head">Forgot <br> password?</h1>
                 <form class="container__form" [formGroup]="restorationPass">
                     <div class="container__login-mail">

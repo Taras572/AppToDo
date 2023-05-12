@@ -22,10 +22,11 @@
     overflow: hidden;
 }
 
-$width_block: 320px;
+$width_block: 420px;
 
 .container {
     max-width: $width_block;
+    width: 100%;
     background-color: $back-color-app;
     margin: 0 auto;
     color: $text-input-light-color;
@@ -37,7 +38,8 @@ $width_block: 320px;
 .container__block,
 .container__block-second,
 .container__block-third {
-    width: $width_block;
+    max-width: $width_block;
+    width: 100%;
     height: 100vh;
     background-color: inherit;
     padding: 20px;
@@ -47,7 +49,7 @@ $width_block: 320px;
     justify-content: center;
 }
 
-.container__block {
+/* .container__block {
     transform: translateZ(calc($width_block/2 - 1px));
 }
 
@@ -57,7 +59,7 @@ $width_block: 320px;
 
 .container__block-third {
     transform: rotateY(-90deg) translateZ(calc($width_block/2 - 1px));
-}
+} */
 
 .container__Register-mail__input,
 .container__Register-pass__input,

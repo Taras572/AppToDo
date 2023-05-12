@@ -107,6 +107,7 @@ export class SettingsProfileComponent {
         else this.showError('Something went wrong!');
     }
 
+
     showSuccess(massage: string): void {
         this.toastr.success(massage);
     }
