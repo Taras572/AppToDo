@@ -29,8 +29,11 @@ export class SettingsProfileService {
         else return 'rgb(239 80 19)'
     }
 
-    getFullDate(): string {
+    getFullDate(item:number): string {
         let date = new Date();
+
+        if(item)date.setDate(item)
+
         let dd = String(date.getDate());
         if (Number(dd) < 10) dd = '0' + dd;
         let mm = String(date.getMonth() + 1);

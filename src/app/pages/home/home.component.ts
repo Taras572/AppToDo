@@ -120,7 +120,7 @@ export class HomeComponent {
         if (this.taskForm.value.text && this.taskForm.value.dataFinish) {
             const newPostKey = push(child(ref(this.db), 'users')).key?.substring(1);
             const { text, dataFinish } = this.taskForm.value;
-            const obj = new Task(newPostKey!, false, dataFinish, this.settingService.getFullDate(), text);
+            const obj = new Task(newPostKey!, false, dataFinish, this.settingService.getFullDate(0), text);
             set(ref(this.db, 'users/' + uidUser + '/task/' + newPostKey), obj)
                 .then(() => {
                     this.showSuccess('Data saved successfully!');
@@ -171,18 +171,18 @@ export class HomeComponent {
     }
 
 
-    removeTask(taskID: any): void {
+    removeTask(taskID: any, item: boolean): void {
         if (this.task.length == 1) {
             set(ref(this.db, 'users/' + this.personInfo.uid + '/task/'), '')
                 .then(() => {
                     this.edit_block = true;
-                    this.showSuccess('Task successfully deleted!');
+                    this.showSuccess(item ? 'History has been cleared' : 'Task successfully deleted!');
                 });
         }
         else {
             remove(ref(this.db, 'users/' + this.personInfo.uid + '/task/' + taskID));
             this.edit_block = true;
-            this.showSuccess('Task successfully deleted!');
+            this.showSuccess(item ? 'History has been cleared' : 'Task successfully deleted!');
         }
     }
 
@@ -200,14 +200,14 @@ export class HomeComponent {
 
     testTask(item: string): boolean {
         const finishData = Number(item.split('-').join(''));
-        const todayData = Number(this.settingService.getFullDate().split('-').join(''));
+        const todayData = Number(this.settingService.getFullDate(0).split('-').join(''));
         if (finishData - todayData > 0) return true;
         else return false;
     }
 
 
     sortTask(item: string): void {
-        this.task.sort((x)=> x.complete? 0 : -1 );
+        this.task.sort((x) => x.complete ? 0 : -1);
         if (item === '302') {
             this.task.sort(function (x, y) {
                 if (!x.complete) return Number(x.dataFinish.split('-').join('')) - Number(y.dataFinish.split('-').join(''))
@@ -234,10 +234,21 @@ export class HomeComponent {
         }
     }
 
+
     cleanHistory() {
-        console.log(this.settingService.getFullDate());
-        this.task.forEach(elem=>console.log(elem.dataFinish));
-        console.log(this.task);
-        console.log(this.userCount[0].setting.history);
-    }  
+        let days: number = 7;
+        if (this.userCount[0].setting.history === '201') days = 1;
+        else if (this.userCount[0].setting.history === '203') days = 30;
+
+        let date = new Date();
+        const date2 = Number(this.settingService.getFullDate(date.getDate() - days).split('-').join(''));
+
+        this.task.forEach(elem => {
+            const date1 = Number(elem.dataFinish.split('-').join(''));
+            if (elem.complete && date1 <= date2) this.removeTask(elem.id, true);
+        });
+
+    }
+
+
 }

@@ -232,7 +232,6 @@ $width-person-info: 420px;
     font-size: 40px;
 }
 
-
 .container__add-btn {
     position: fixed;
     top: calc(100vh - 60px);
@@ -351,7 +350,7 @@ $width-person-info: 420px;
     position: fixed;
     top: 0;
     transform: translate(-15px,0);
-    width:$width-person-info ;
+    width:$width-person-info;
     height: 0;
     z-index: 999;
     background-color: #363c4581;
@@ -362,7 +361,7 @@ $width-person-info: 420px;
     transition: 0.6s;
 }
 .container__edit{
-    width: 100%;
+    width: 100%; 
     align-items: normal;
     transform: rotateX(270deg);
 }
@@ -405,6 +404,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
     .container__person-name p{
         font-size: 13px;
+    }
+}
+@media (max-width: 420px){
+    .container__block-edit{
+        width: 100%;
     }
 }
 

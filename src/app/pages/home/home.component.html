@@ -57,7 +57,7 @@
                     <div class="container__edit-btn">
                         <button type="button" class="uil uil-cancel" (click)="edit_block=true"></button>
                         <button type="button" class="uil uil-trash" *ngIf="add_block"
-                            (click)="removeTask(taskID)"></button>
+                            (click)="removeTask(taskID,false)"></button>
                         <button type="button" class="uil uil-save"
                             (click)="!add_block ? createProduct(personInfo.uid) : saveEdit(taskID)"></button>
                     </div>
