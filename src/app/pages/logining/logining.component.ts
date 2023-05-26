@@ -45,7 +45,6 @@ export class LoginingComponent {
         public auth: Auth,
         public db: Database,
         public router: Router,
-        private toastr: ToastrService,
         public userService: UsersService,
         public settingService: SettingsProfileService
     ) {
@@ -61,8 +60,9 @@ export class LoginingComponent {
             this.testStyle = JSON.parse(<string>sessionStorage.getItem('style'));
             this.colorStyle = this.settingService.colorApp(this.testStyle);
         }
-        if(window.innerWidth<420)this.translete = (window.innerWidth/2) - 1;//for animation
+        if (window.innerWidth < 420) this.translete = (window.innerWidth / 2) - 1;//for animation
     }
+
 
     onResize(event: any) {
         if (event.target.innerWidth < 420) (this.translete = event.target.innerWidth / 2) - 1;
@@ -73,7 +73,7 @@ export class LoginingComponent {
         if (localStorage.getItem('userToDo')) {
             let item = JSON.parse(<string>localStorage.getItem('userToDo'));
             if (item.uid) {
-                this.showSuccess('Success');
+                this.settingService.showSuccess('Success');
                 setTimeout(() => {
                     this.router.navigate(['/home']);
                 }, 500);
@@ -119,7 +119,7 @@ export class LoginingComponent {
             })
             .catch((error) => {
                 const errorCode = error.code;
-                this.checkMassege(errorCode);
+                this.checkMessage(errorCode);
             });
     }
 
@@ -144,14 +144,14 @@ export class LoginingComponent {
             .then((userCredential) => {
                 const user = userCredential.user;
                 this.setLocalStorage(user);
-                this.showSuccess('Success');
+                this.settingService.showSuccess('Success');
                 setTimeout(() => {
                     this.router.navigate(['/home']);
                 }, 500);
             })
             .catch((error) => {
                 const errorCode = error.code;
-                this.checkMassege(errorCode);
+                this.checkMessage(errorCode);
 
             });
     }
@@ -166,7 +166,7 @@ export class LoginingComponent {
                 this.checkUser(user);
             }).catch((error) => {
                 const errorCode = error.code;
-                this.checkMassege(errorCode);
+                this.checkMessage(errorCode);
             });
     }
 
@@ -181,7 +181,11 @@ export class LoginingComponent {
         get(child(dbRef, `users/${user.uid}`)).then((snapshot) => {
             if (snapshot.exists()) {
                 this.setLocalStorage(user);
-                this.showSuccess('Success');
+                this.settingService.showSuccess('Success');
+                
+                    this.userService.test$.next(true);
+                    /* this.userService.guard(); */
+                    console.log(this.userService.guard());
                 setTimeout(() => {
                     this.router.navigate(['/home']);
                 }, 500);
@@ -199,12 +203,12 @@ export class LoginingComponent {
         const { email } = this.restorationPass.value;
         sendPasswordResetEmail(this.auth, email)
             .then(() => {
-                this.showSuccess('Email sent successfully!')
+                this.settingService.showSuccess('Email sent successfully!')
                 this.rotate_sing = 0;
             })
             .catch((error) => {
                 const errorCode = error.code;
-                this.checkMassege(errorCode);
+                this.checkMessage(errorCode);
             });
     }
 
@@ -214,7 +218,7 @@ export class LoginingComponent {
         const obj = new Users(user.uid, user.displayName || 'Guest', user.email, setting, '', 0, 0, user.photoURL || "../../../assets/image/Avatar_Cat-512.webp");
         set(ref(this.db, 'users/' + user.uid), obj)
             .then(() => {
-                this.showSuccess('Success');
+                this.settingService.showSuccess('Success');
                 setTimeout(() => {
                     this.router.navigate(['/home']);
                 }, 500);
@@ -225,56 +229,54 @@ export class LoginingComponent {
     }
 
 
-    checkMassege(errorCode: string): void {
-        let letter = errorCode[5].toLocaleUpperCase();
-        let mess = letter.concat(errorCode.slice(6).split('-').join(' '));
+    checkMessage(errorCode: string): void {
+        const letter = errorCode[5].toUpperCase();
+        const mess = letter.concat(errorCode.slice(6).split('-').join(' '));
 
-        if (errorCode == 'auth/email-already-in-use') {
-            this.countStyle.email_Register = true;
-            this.showError(mess);
+        switch (errorCode) {
+            case 'auth/email-already-in-use':
+                this.countStyle.email_Register = true;
+                this.settingService.showError(mess);
+                break;
+            case 'auth/invalid-email':
+                this.countStyle.email_Register = true;
+                this.countStyle.email_SingIn = true;
+                this.settingService.showError(mess);
+                break;
+            case 'auth/missing-email':
+                this.countStyle.email_Register = true;
+                this.countStyle.email_SingIn = true;
+                this.countStyle.reset_Pass = true;
+                this.settingService.showError(mess);
+                break;
+            case 'auth/weak-password':
+                this.countStyle.pass_Register = true;
+                this.settingService.showError(mess);
+                break;
+            case 'auth/internal-error':
+                this.countStyle.pass_Register = true;
+                this.countStyle.pass_SingIn = true;
+                this.settingService.showError('Write the password');
+                break;
+            case 'auth/wrong-password':
+                this.countStyle.pass_SingIn = true;
+                this.settingService.showError(mess);
+                break;
+            case 'auth/user-not-found':
+                this.countStyle.email_SingIn = true;
+                this.settingService.showError(mess);
+                break;
+            case 'auth/admin-restricted-operation':
+                this.countStyle.email_Register = true;
+                this.countStyle.pass_Register = true;
+                this.settingService.showError('Write email and password');
+                break;
+            case 'auth/popup-closed-by-user':
+                this.settingService.showError(mess);
+                break;
+            default:
+                break;
         }
-        else if (errorCode == 'auth/invalid-email') {
-            this.countStyle.email_Register = true;
-            this.countStyle.email_SingIn = true;
-            this.showError(mess);
-        }
-        else if (errorCode == 'auth/missing-email') {
-            this.countStyle.email_Register = true;
-            this.countStyle.email_SingIn = true;
-            this.countStyle.reset_Pass = true;
-            this.showError(mess);
-        }
-
-        if (errorCode == 'auth/weak-password') {
-            this.countStyle.pass_Register = true;
-            this.showError(mess);
-        }
-        else if (errorCode == 'auth/internal-error') {
-            this.countStyle.pass_Register = true;
-            this.countStyle.pass_SingIn = true;
-            this.showError(mess);
-        }
-
-        if (errorCode == 'auth/wrong-password') {
-            this.countStyle.pass_SingIn = true;
-            this.showError(mess);
-        }
-
-        if (errorCode == 'auth/user-not-found') {
-            this.countStyle.email_SingIn = true;
-            this.showError(mess);
-        }
-
-        if (errorCode == 'auth/admin-restricted-operation') {
-            this.countStyle.email_Register = true;
-            this.countStyle.pass_Register = true;
-            this.showError('Write email and password');
-        }
-
-        if (errorCode == 'auth/popup-closed-by-user') {
-            this.showError(mess);
-        }
-
     }
 
 
@@ -286,15 +288,6 @@ export class LoginingComponent {
             this.password = 'password';
             this.show = false;
         }
-    }
-
-
-    showSuccess(massage: string): void {
-        this.toastr.success(massage, '', { timeOut: 1000, });
-    }
-
-    showError(massage: string): void {
-        this.toastr.error(massage);
     }
 
 }

@@ -94,9 +94,10 @@ $width_block: 420px;
     left: 10px;
     transform: translate(0, -50%);
 }
+
 .uil-sign-out-alt::before,
 .uil-registered::before,
-.uil-home::before{
+.uil-home::before {
     left: 19px;
     font-size: 25px;
 }
@@ -162,13 +163,16 @@ $width_block: 420px;
         rgba(240, 46, 170, 0.1) -2px 2px,
         rgba(240, 46, 170, 0.05) -2px 5px;
 }
-.A102 .container__login-singIn-btn{
+
+.A102 .container__login-singIn-btn {
     background-color: $btn-log-color-lime;
 }
-.A103 .container__login-singIn-btn{
+
+.A103 .container__login-singIn-btn {
     background-color: $btn-log-color-blue;
 }
-.A104 .container__login-singIn-btn{
+
+.A104 .container__login-singIn-btn {
     background-color: $btn-log-color-violet;
 }
 
@@ -205,12 +209,14 @@ $width_block: 420px;
 .container__login-singIn-btn:active {
     transform: rotate(30deg);
 }
+
 .uil-arrow-right {
     color: $text-input-light-color;
     font-size: 25px;
     transition: 0.1s;
 }
-.container__login-singIn-btn:active .uil-arrow-right{
+
+.container__login-singIn-btn:active .uil-arrow-right {
     font-size: 30px;
 }
 
@@ -248,14 +254,17 @@ $width_block: 420px;
 .container__login-registration:hover {
     box-shadow: 0 0 4px 4px $btn-log-color;
 }
+
 .A102 .container__login-singIn-with:hover,
 .A102 .container__login-registration:hover {
     box-shadow: 0 0 4px 4px $btn-log-color-lime;
 }
+
 .A103 .container__login-singIn-with:hover,
 .A103 .container__login-registration:hover {
     box-shadow: 0 0 4px 4px $btn-log-color-blue;
 }
+
 .A104 .container__login-singIn-with:hover,
 .A104 .container__login-registration:hover {
     box-shadow: 0 0 4px 4px $btn-log-color-violet;
@@ -267,16 +276,19 @@ $width_block: 420px;
     box-shadow: 0 0 1px 1px $btn-log-color;
     color: $btn-log-color;
 }
+
 .A102 .container__login-singIn-with:active,
 .A102 .container__login-registration:active {
     box-shadow: 0 0 1px 1px $btn-log-color-lime;
     color: $btn-log-color-lime;
 }
+
 .A103 .container__login-singIn-with:active,
 .A103 .container__login-registration:active {
     box-shadow: 0 0 1px 1px $btn-log-color-blue;
     color: $btn-log-color-blue;
 }
+
 .A104 .container__login-singIn-with:active,
 .A104 .container__login-registration:active {
     box-shadow: 0 0 1px 1px $btn-log-color-violet;

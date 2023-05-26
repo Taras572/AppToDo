@@ -39,22 +39,14 @@ export class StatisticsComponent {
         }
     }
 
-
     loadUser(item: string) {
-        const dbRef = ref(this.db);
-        get(child(dbRef, `users/` + item)).then((snapshot) => {
-            if (snapshot.exists()) {
-                this.finishedTask = snapshot.val().finishedTask;
-                this.unfinishedTask = snapshot.val().unfinishedTask;
-                this.allTask = Object.values(snapshot.val().task).length;
-                this.progress = this.checkTask(Object.values(snapshot.val().task));
-                this.test = Object.values(snapshot.val().task);
-                this.countStyle = this.settingService.colorApp(snapshot.val().setting.style);
-            } else {
-                console.log("No data available");
-            }
-        }).catch((error) => {
-            console.error(error);
+        this.userService.load(item).subscribe(elem => { 
+            this.finishedTask = elem.finishedTask;
+                this.unfinishedTask = elem.unfinishedTask;
+                this.allTask = Object.values(elem.task).length;
+                this.progress = this.checkTask(Object.values(elem.task));
+                this.test = Object.values(elem.task);
+                this.countStyle = this.settingService.colorApp(elem.setting.style);
         })
     }
 

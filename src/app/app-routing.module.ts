@@ -4,15 +4,16 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginingComponent } from './pages/logining/logining.component';
 import { StatisticsComponent } from './pages/statistics/statistics.component';
 import { SettingsProfileComponent } from './pages/settings-profile/settings-profile.component';
+import { AuthGuard } from './guards/auth.guard';
 
 
 
 const routes: Routes = [
   { path: '', component: LoginingComponent },
   { path: 'logining', component: LoginingComponent },
-  { path: 'statistic', component: StatisticsComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'setting', component: SettingsProfileComponent }
+  { path: 'statistic', component: StatisticsComponent, canActivate: [AuthGuard] },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+  { path: 'setting', component: SettingsProfileComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

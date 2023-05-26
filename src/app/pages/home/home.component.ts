@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 import { UsersService } from 'src/app/shared/services/users/users.service';
-import { child, get, onValue, push, ref, remove, set, update } from 'firebase/database';
+import { ref, remove, set, update } from 'firebase/database';
 import { Database } from '@angular/fire/database';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { Task, user } from 'src/app/shared/model/users/users.module';
+import { task, user } from 'src/app/shared/model/users/users.module';
 import { SettingsProfileService } from 'src/app/shared/services/settings/settings-profile.service';
-import { sendPasswordResetEmail } from 'firebase/auth';
 
 
 @Component({
@@ -21,7 +19,7 @@ export class HomeComponent {
     public personInfo: any;
 
     public userCount: Array<user> = [];
-    public task: Array<any> = [];
+    public task: Array<task> = [];
     public taskID!: string;
     public taskForm!: UntypedFormGroup;
     public testStyle!: string;
@@ -33,18 +31,19 @@ export class HomeComponent {
     constructor(
         public userService: UsersService,
         public db: Database,
-        private toastr: ToastrService,
         private fb: UntypedFormBuilder,
         public settingService: SettingsProfileService
     ) {
 
     }
 
+
     ngOnInit(): void {
         this.initTasks();
         this.getUid();
         this.settingService.colorApp$.subscribe(elem => this.countStyle = elem);
-        this.week();
+        this.days = this.settingService.week();
+        this.userService.edit$.subscribe(elem => { this.edit_block = elem });
     }
 
 
@@ -68,22 +67,6 @@ export class HomeComponent {
         }
     }
 
-    // i need render user info just once time !!!
-    loadUser(item: string) {
-        const dbRef = ref(this.db);
-        get(child(dbRef, `users/` + item)).then((snapshot) => {
-            if (snapshot.exists()) {
-                this.userCount.push(snapshot.val());
-                this.styleApp(snapshot.val().setting.style);
-                this.loadTask(this.personInfo.uid, snapshot.val().setting.sort);
-            } else {
-                console.log("No data available");
-            }
-        }).catch((error) => {
-            console.error(error);
-        })
-    }
-
 
     styleApp(item: string) {
         this.testStyle = item;
@@ -92,11 +75,12 @@ export class HomeComponent {
     }
 
 
-    loadTask(item: string, elem: string) {
-        const starCountRef = ref(this.db, 'users/' + item + '/task/');
-        onValue(starCountRef, (snapshot) => {
-            this.task = Object.values(snapshot.val());
-            this.sortTask(elem);
+    loadUser(item: string) {
+        this.userService.load(item).subscribe(elem => {
+            this.userCount = [elem];
+            this.task = Object.values(elem.task);
+            this.styleApp(elem.setting.style);
+            this.sortTask(elem.setting.sort);
             this.cleanHistory();
         })
     }
@@ -109,29 +93,11 @@ export class HomeComponent {
         }
         else this.userCount[0].finishedTask--;
         const starCountRef = 'users/' + this.personInfo.uid;
-        update(ref(this.db, starCountRef), {
+        const count = {
             finishedTask: this.userCount[0].finishedTask,
             unfinishedTask: this.userCount[0].unfinishedTask++
-        });
-    }
-
-
-    createProduct(uidUser: string): void {
-        if (this.taskForm.value.text && this.taskForm.value.dataFinish) {
-            const newPostKey = push(child(ref(this.db), 'users')).key?.substring(1);
-            const { text, dataFinish } = this.taskForm.value;
-            const obj = new Task(newPostKey!, false, dataFinish, this.settingService.getFullDate(0), text);
-            set(ref(this.db, 'users/' + uidUser + '/task/' + newPostKey), obj)
-                .then(() => {
-                    this.showSuccess('Data saved successfully!');
-                    this.edit_block = !this.edit_block;
-                })
-                .catch((error) => {
-                    console.log(error);
-                    this.showSuccess(error);
-                });
-        }
-        else this.showInfo('Task and data can`t be empty!');
+        };
+        this.userService.update(starCountRef, count, false)
     }
 
 
@@ -139,11 +105,37 @@ export class HomeComponent {
         const obj = this.task.filter(elem => { return elem.id === id });
         const starCountRef = 'users/' + this.personInfo.uid + '/task/' + id;
         setTimeout(() => {
-            update(ref(this.db, starCountRef), {
-                complete: !obj[0].complete
-            });
+            const count = { complete: !obj[0].complete }
+            this.userService.update(starCountRef, count, false)
             this.informTask(obj[0].complete, obj[0].dataFinish);
         }, 200);
+    }
+
+
+    saveEdit(taskID: string) {
+        if (this.taskForm.value.text && this.taskForm.value.dataFinish) {
+            const starCountRef = 'users/' + this.personInfo.uid + '/task/' + taskID;
+            const count = {
+                text: this.taskForm.value.text,
+                dataFinish: this.taskForm.value.dataFinish,
+                complete: false,
+            }
+            this.userService.update(starCountRef, count, true)
+        }
+        else this.settingService.showInfo('Task and data can`t be empty!');
+    }
+
+
+    createProduct(uidUser: string): void {
+        if (this.taskForm.value.text && this.taskForm.value.dataFinish) {
+            this.userService.create(uidUser, this.taskForm.value).subscribe(() => {
+                this.settingService.showSuccess('Data saved successfully!');
+                this.edit_block = !this.edit_block;
+            }, (err: any) => {
+                this.settingService.showSuccess(err);
+            })
+        }
+        else this.settingService.showInfo('Task and data can`t be empty!');
     }
 
 
@@ -155,46 +147,15 @@ export class HomeComponent {
         });
     }
 
-    saveEdit(taskID: string) {
-        if (this.taskForm.value.text && this.taskForm.value.dataFinish) {
-            const starCountRef = 'users/' + this.personInfo.uid + '/task/' + taskID;
-            update(ref(this.db, starCountRef), {
-                text: this.taskForm.value.text,
-                dataFinish: this.taskForm.value.dataFinish,
-                complete: false,
-            }).then(() => {
-                this.showSuccess('Data saved successfully!');
-                this.edit_block = true;
-            });
-        }
-        else this.showInfo('Task and data can`t be empty!');
-    }
-
 
     removeTask(taskID: any, item: boolean): void {
         if (this.task.length == 1) {
-            set(ref(this.db, 'users/' + this.personInfo.uid + '/task/'), '')
-                .then(() => {
-                    this.edit_block = true;
-                    this.showSuccess(item ? 'History has been cleared' : 'Task successfully deleted!');
-                });
+            this.userService.remove(taskID, item, this.personInfo.uid, true);
         }
         else {
-            remove(ref(this.db, 'users/' + this.personInfo.uid + '/task/' + taskID));
-            this.edit_block = true;
-            this.showSuccess(item ? 'History has been cleared' : 'Task successfully deleted!');
+            this.userService.remove(taskID, item, this.personInfo.uid, false);
         }
-    }
-
-
-    showSuccess(massage: string): void {
-        this.toastr.success(massage);
-    }
-    showError(massage: string): void {
-        this.toastr.error(massage);
-    }
-    showInfo(massage: string): void {
-        this.toastr.info(massage);
+        this.edit_block = true;
     }
 
 
@@ -207,35 +168,17 @@ export class HomeComponent {
 
 
     sortTask(item: string): void {
-        this.task.sort((x) => x.complete ? 0 : -1);
         if (item === '302') {
             this.task.sort(function (x, y) {
                 if (!x.complete) return Number(x.dataFinish.split('-').join('')) - Number(y.dataFinish.split('-').join(''))
                 return 0
             });
-        }
-    }
-
-
-    week(): void {
-        let date = new Date();
-        let dateToday = date.getDate();
-        date.setDate(date.getDate() - date.getDay());
-        this.days = [];
-        for (let i = 0; i < 7; i++) {
-            this.days.push(
-                {
-                    week: date.toDateString().slice(0, 3).toLocaleUpperCase(),
-                    date: date.getDate(),
-                    active: dateToday === date.getDate() ? true : false
-                }
-            );
-            date.setDate(date.getDate() + 1);
-        }
+        } else this.task.sort((x) => x.complete ? 0 : -1);
     }
 
 
     cleanHistory() {
+
         let days: number = 7;
         if (this.userCount[0].setting.history === '201') days = 1;
         else if (this.userCount[0].setting.history === '203') days = 30;
@@ -247,7 +190,6 @@ export class HomeComponent {
             const date1 = Number(elem.dataFinish.split('-').join(''));
             if (elem.complete && date1 <= date2) this.removeTask(elem.id, true);
         });
-
     }
 
 

@@ -60,7 +60,7 @@ export interface user {
     nickName: string,
     email: string,
     setting: setting,
-    task: any,
+    task: task,
     finishedTask: number,
     unfinishedTask: number,
     image: any

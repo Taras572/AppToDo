@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { FormBuilder, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { Auth } from '@angular/fire/auth';
 import { UsersService } from 'src/app/shared/services/users/users.service';
 import { SettingsProfileService } from 'src/app/shared/services/settings/settings-profile.service';
 
-import { child, get, onValue, ref, remove, set, update } from 'firebase/database';
+import { ref, remove, update } from 'firebase/database';
 import { Database } from '@angular/fire/database';
 import { setting } from 'src/app/shared/model/users/users.module';
 
@@ -35,7 +35,8 @@ export class SettingsProfileComponent {
         public router: Router,
         public auth: Auth,
         public servise: UsersService,
-        public settingService: SettingsProfileService
+        public settingService: SettingsProfileService,
+        public userService: UsersService
     ) { }
 
 
@@ -63,26 +64,23 @@ export class SettingsProfileComponent {
     }
 
 
-    loadSettings(Uid: string): void {
-        const dbRef = ref(this.db);
-        get(child(dbRef, `users/${Uid}/setting/`)).then((snapshot) => {
-            if (snapshot.exists()) {
-                this.setting = snapshot.val();
-                const { fullName, nickName, style, history, sort } = this.setting;
-                this.testStyle = style;
-               
-                this.settingForm.patchValue({
-                    fullName: fullName,
-                    nickName: nickName,
-                    sort: sort,
-                    history: history,
-                    style: style,
-                })
+    loadSettings(item: string): void {
 
-            } else console.log("No data available");
-        }).catch((error) => {
-            console.error(error);
-        });
+        this.userService.load(item).subscribe(elem => { 
+            console.log(elem.setting)
+            this.setting = elem.setting;
+            const { fullName, nickName, style, history, sort } = this.setting;
+            this.testStyle = style;
+           
+            this.settingForm.patchValue({
+                fullName: fullName,
+                nickName: nickName,
+                sort: sort,
+                history: history,
+                style: style,
+            })
+        })
+
     }
 
 
@@ -92,27 +90,19 @@ export class SettingsProfileComponent {
         remove(ref(this.db, 'users/' + user?.uid)).catch(err => console.log(err));
         localStorage.removeItem('userToDo');
         this.router.navigate(['/logining']);
-        this.showSuccess('Account successfully deleted!');
+        this.settingService.showSuccess('Account successfully deleted!');
     }
+
 
     saveSetting() {
         if (this.settingForm.value.fullName || this.settingForm.value.nickName) {
             const starCountRef = 'users/' + this.personInfo.uid + '/setting';
             update(ref(this.db, starCountRef), this.settingForm.value).then(() => {
-                console.log(this.settingForm.value);
                 this.testStyle = this.settingForm.value.style;
-                this.showSuccess('Save successfully!');
+                this.settingService.showSuccess('Save successfully!');
             });
         }
-        else this.showError('Something went wrong!');
-    }
-
-
-    showSuccess(massage: string): void {
-        this.toastr.success(massage);
-    }
-    showError(massage: string): void {
-        this.toastr.error(massage);
+        else this.settingService.showError('Something went wrong!');
     }
 
 }
