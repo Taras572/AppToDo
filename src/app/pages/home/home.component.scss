@@ -398,6 +398,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     text-decoration:line-through;
 }
 
+.container__add-btn:hover{
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.container__add-btn:hover .uil-plus{
+    font-size: 41px;
+    transition: 0.1s;
+}
+.container__add-btn:active{
+    width: 48px;
+    height: 48px;
+}
+
 @media (max-width: 350px) {
     .container__person-name h2{
         font-size: 18px;

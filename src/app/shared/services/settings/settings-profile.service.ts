@@ -16,8 +16,6 @@ export class SettingsProfileService {
     }
 
 
-
-
     delete(user: any): void {
         deleteUser(user).then(() => {
             console.log('delete')
@@ -67,8 +65,6 @@ export class SettingsProfileService {
     }
 
     
-
-
     showSuccess(massage: string): void {
         this.toastr.success(massage);
     }
