@@ -152,7 +152,6 @@ export class LoginingComponent {
             .catch((error) => {
                 const errorCode = error.code;
                 this.checkMessage(errorCode);
-
             });
     }
 

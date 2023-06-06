@@ -53,6 +53,22 @@ p {
   margin-right: 10px;
 }
 
+.container__text-home:hover {
+  cursor: pointer;
+}
+
+.A102:hover {
+  color: #7CFC00;
+}
+
+.A103:hover {
+  color: rgb(36, 183, 173);
+}
+
+.A104:hover {
+  color: rgb(239, 19, 48);
+}
+
 .container__back-home {
   display: inline-flex;
   text-align: center;

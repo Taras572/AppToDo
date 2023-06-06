@@ -9,7 +9,7 @@ import { LoginingComponent } from './pages/logining/logining.component';
 import { HomeComponent } from './pages/home/home.component';
 import { StatisticsComponent } from './pages/statistics/statistics.component';
 import { SettingsProfileComponent } from './pages/settings-profile/settings-profile.component';
-
+import { CatComponent } from './pages/cat/cat.component';
 
 
 import { environment } from '../environments/environment';
@@ -19,11 +19,17 @@ import { getApp, initializeApp } from 'firebase/app';
 import { getStorage } from 'firebase/storage';
 import { getDatabase } from 'firebase/database';
 import { getAuth } from 'firebase/auth';
+import { getMessaging } from "firebase/messaging";
 
 import { provideStorage } from '@angular/fire/storage';
 import { provideDatabase } from '@angular/fire/database';
 import { provideAuth } from '@angular/fire/auth';
+import { provideMessaging } from '@angular/fire/messaging';
 import { ToastrModule } from 'ngx-toastr';
+
+
+
+
 
 
 
@@ -34,6 +40,7 @@ import { ToastrModule } from 'ngx-toastr';
     HomeComponent,
     StatisticsComponent,
     SettingsProfileComponent,
+    CatComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,6 +53,7 @@ import { ToastrModule } from 'ngx-toastr';
     provideStorage(() => getStorage(getApp(), 'anotherBucket')),
     provideDatabase(() => getDatabase()),
     provideAuth(() => getAuth()),
+    provideMessaging(()=> getMessaging())
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -44,6 +44,10 @@ export class HomeComponent {
         this.settingService.colorApp$.subscribe(elem => this.countStyle = elem);
         this.days = this.settingService.week();
         this.userService.edit$.subscribe(elem => { this.edit_block = elem });
+        let Filter = require('bad-words'), filter = new Filter();
+        console.log(filter.clean("Don't be an ash0le beach suck my dick"));
+
+        let test = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjJkM2E0YTllYjY0OTk0YzUxM2YyYzhlMGMwMTY1MzEzN2U5NTg3Y2EiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiWmVmaXIiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUFjSFR0Y2toUFZkcWMtdkdBYnJLWFRuSDZtZ1dIUTJKVXRGcndpbkVWbFU1Zz1zOTYtYyIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS90b2RvbGlzdC0yMzllMiIsImF1ZCI6InRvZG9saXN0LTIzOWUyIiwiYXV0aF90aW1lIjoxNjg1MzUyNzk0LCJ1c2VyX2lkIjoiOElKaEZmMVZLYmd1MW9XTXFQMVdVVXZrTjIwMiIsInN1YiI6IjhJSmhGZjFWS2JndTFvV01xUDFXVVV2a04yMDIiLCJpYXQiOjE2ODUzNTI3OTQsImV4cCI6MTY4NTM1NjM5NCwiZW1haWwiOiIxOXplZmlyQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7Imdvb2dsZS5jb20iOlsiMTA2MjgwMDE3NTE0NjQzOTEyNTkxIl0sImVtYWlsIjpbIjE5emVmaXJAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoiZ29vZ2xlLmNvbSJ9fQ.Q7Rtih4Zfgc98SxF1Yi3oRrTQDoK-RbjTqIs-8lmYQZYm9Xy-PCieI_GuoPC1IKpvx8vfqxKJiMQj3op9EuEbEQ5ktl6ohKBcgbAJGq8WfQU7EHq4IalZrJlt2L9gPF0RSNg6SYYc-fqRPBNFbLfMZM6iHKVwI85O-43zIrKNzezPLW-0aFpiDE_ivXSc6HTPueTt0Et9K6V05bcDKybOczjMUIT7Qje2OqkGmbwk-Lx_oneqCdkc4db2XSLPpMxRZjW13Tq1waj9R-NO8-ppzqPYn6YlP8atj7Azj8zXPNRmkWTwu6i-pVsvUE5VLUgDQkHz6iE11sMJ7M2PKGY2w"
     }
 
 
@@ -174,6 +178,7 @@ export class HomeComponent {
                 return 0
             });
         } else this.task.sort((x) => x.complete ? 0 : -1);
+        console.log(this.settingService.getFullDate(0));
     }
 
 

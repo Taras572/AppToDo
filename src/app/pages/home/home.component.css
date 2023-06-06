@@ -69,6 +69,30 @@
   font-size: 20px;
 }
 
+.A102 .uil:hover {
+  color: #7CFC00;
+}
+
+.A103 .uil:hover {
+  color: rgb(36, 183, 173);
+}
+
+.A104 .uil:hover {
+  color: rgb(239, 19, 48);
+}
+
+.A102 .container_person-statistics:hover {
+  color: #7CFC00;
+}
+
+.A103 .container_person-statistics:hover {
+  color: rgb(36, 183, 173);
+}
+
+.A104 .container_person-statistics:hover {
+  color: rgb(239, 19, 48);
+}
+
 .container__person-img {
   height: 50px;
   width: 50px;
@@ -128,25 +152,21 @@
   padding: 17px 2px;
 }
 
-.container__week-day:hover {
-  border: none;
-  background-color: rgb(239, 80, 19);
-  color: #333333;
-  cursor: pointer;
+/* .container__week-day:hover {
+    border: none;
+    background-color: $btn-log-color;
+    color: $text-text-dark-color;
+    cursor: pointer;
 }
-
 .A102 .container__week-day:hover {
-  background-color: #7CFC00;
+    background-color: $btn-log-color-lime;
 }
-
 .A103 .container__week-day:hover {
-  background-color: rgb(36, 183, 173);
+    background-color: $btn-log-color-blue;
 }
-
 .A104 .container__week-day:hover {
-  background-color: rgb(239, 19, 48);
-}
-
+    background-color: $btn-log-color-violet;
+} */
 .container__body {
   padding: 10px 15px;
   padding-top: 200px;
@@ -384,11 +404,30 @@ input[type=date]::-webkit-calendar-picker-indicator {
   text-decoration: line-through;
 }
 
+.container__add-btn:hover {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.container__add-btn:hover .uil-plus {
+  font-size: 41px;
+  transition: 0.1s;
+}
+
+.container__add-btn:active {
+  width: 48px;
+  height: 48px;
+}
+
 @media (max-width: 350px) {
   .container__person-name h2 {
     font-size: 18px;
   }
   .container__person-name p {
     font-size: 13px;
+  }
+}
+@media (max-width: 420px) {
+  .container__block-edit {
+    width: 100%;
   }
 }/*# sourceMappingURL=home.component.css.map */

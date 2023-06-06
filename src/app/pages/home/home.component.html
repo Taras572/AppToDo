@@ -52,7 +52,7 @@
                     [ngStyle]="{ 'transform': edit_block ? 'rotateX(270deg)' : 'rotateX(0deg)'}">
                     <div class="container__text-task">
                         <textarea name="" id="edit-text" placeholder="Type here..." formControlName="text"></textarea>
-                        <input type="date" class="container__data-btn" formControlName="dataFinish">
+                        <input type="date" class="container__data-btn" formControlName="dataFinish" min="{{settingService.getFullDate(0)}}">
                     </div>
                     <div class="container__edit-btn">
                         <button type="button" class="uil uil-cancel" (click)="edit_block=true"></button>
